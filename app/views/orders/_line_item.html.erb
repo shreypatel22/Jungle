@@ -3,3 +3,4 @@
 <p> Name: <%= product.name %></p>
 <p> Item Total: <%= humanized_money_with_symbol item.item_price_cents * item.quantity / 100.0 %></p>
 <p> Item Quantity: <%= item.quantity %></p>
+<p> Item Price Each: <%= humanized_money_with_symbol item.item_price_cents / 100.0 %></p>
