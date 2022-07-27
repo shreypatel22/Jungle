@@ -1,0 +1,5 @@
+<%= image_tag product.image.tiny.url %>
+<p> description: <%= product.description %></p>
+<p> Name: <%= product.name %></p>
+<p> Item Total: <%= humanized_money_with_symbol item.item_price_cents * item.quantity / 100.0 %></p>
+<p> Item Quantity: <%= item.quantity %></p>
