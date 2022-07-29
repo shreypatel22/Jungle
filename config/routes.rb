@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'users/new'
+  get 'users/create'
   namespace :admin do
     get 'categories/index'
     get 'categories/new'
@@ -25,6 +27,16 @@ Rails.application.routes.draw do
   end
 
   resources :about, only: [:index]
+
+  # Signup. Render Form 
+  get '/signup' => 'users#new'
+  # Create User in our database
+  post '/users' => 'users#create'
+
+  # Showing users a login form, logging them in, and logging them out.
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
