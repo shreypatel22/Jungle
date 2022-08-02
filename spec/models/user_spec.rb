@@ -147,4 +147,73 @@ RSpec.describe User, type: :model do
       expect(@user2.errors.full_messages).to include("Email has already been taken")
     end
   end
+
+  describe '.authenticate_with_credentials' do
+    # Return Values for authentication ------------------------------------
+    it "should return a user if the authentication is successful" do
+      @user = User.new(
+        first_name: 'bob',
+        last_name: 'bobby',
+        email: 'bob@gmail.com',
+        password: "testtest",
+        password_confirmation: "testtest"
+      )
+      @user.save
+
+      expect(@user).to eq(User.authenticate_with_credentials("bob@gmail.com", "testtest"))
+    end
+
+    it "should return a nil if the authentication is unsuccessful (email)" do
+      @user = User.new(
+        first_name: 'bob',
+        last_name: 'bobby',
+        email: 'bob@gmail.com',
+        password: "testtest",
+        password_confirmation: "testtest"
+      )
+      @user.save
+
+      expect(User.authenticate_with_credentials("bbbob@gmail.com", "testtest")).to eq(nil)
+    end
+
+    it "should return a nil if the authentication is unsuccessful (password)" do
+      @user = User.new(
+        first_name: 'bob',
+        last_name: 'bobby',
+        email: 'bob@gmail.com',
+        password: "testtest",
+        password_confirmation: "testtest"
+      )
+      @user.save
+
+      expect(User.authenticate_with_credentials("bob@gmail.com", "tttesttest")).to eq(nil)
+    end
+
+    # Email authentication edge cases ------------------------------------------
+    it "should successfully authenticate with whitespace before and/or after email" do
+      @user = User.new(
+        first_name: 'bob',
+        last_name: 'bobby',
+        email: 'bob@gmail.com',
+        password: "testtest",
+        password_confirmation: "testtest"
+      )
+      @user.save
+
+      expect(@user).to eq(User.authenticate_with_credentials("  bob@gmail.com  ", "testtest"))
+    end
+
+    it "should successfully authenticate with wrong case for email" do
+      @user = User.new(
+        first_name: 'bob',
+        last_name: 'bobby',
+        email: 'bob@gmail.com',
+        password: "testtest",
+        password_confirmation: "testtest"
+      )
+      @user.save
+
+      expect(@user).to eq(User.authenticate_with_credentials("BoB@gmail.com", "testtest"))
+    end
+  end
 end
